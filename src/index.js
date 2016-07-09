@@ -12,43 +12,62 @@ module.exports = driver({
      * @param {Object} context.args A map of device arguments.
      * @param {Function} next If the third parameter is added, it's the callback for asyncrhonous attaching.
      */
-    attach: function(inputs, context /*, next */ ) {
+    attach: function (inputs, context /*, next */ ) {
         // Get assigned GPIO interface and set property `_gpio`.
         // See https://ruff.io/zh-cn/api/gpio.html for more information about GPIO interfaces.
-        this.speed = 1;
-        this._gpio_out1 = inputs['gpio-out1'];
-        this._gpio_out2 = inputs['gpio-out2'];
-        this._gpio_out3 = inputs['gpio-out3'];
-        this._gpio_out4 = inputs['gpio-out4'];
-        this._pwm = inputs['pwm'];
-        this._gpio_out1.on('interrupt', function(state) {
-            console.log('gpio-out1' + state);
-        });
+        this.current_speed;
+        this._gpio_lf1 = inputs['gpio_lf1'];
+        this._gpio_lf2 = inputs['gpio_lf2'];
+        this._gpio_lb1 = inputs['gpio_lb1'];
+        this._gpio_lb2 = inputs['gpio_lb2'];
+        this._gpio_rf1 = inputs['gpio_rf1'];
+        this._gpio_rf2 = inputs['gpio_rf2'];
+        this._gpio_rb1 = inputs['gpio_rb1'];
+        this._gpio_rb2 = inputs['gpio_rb2'];
+        this._pwm_lf = inputs['pwm_lf'];
+        this._pwm_lb = inputs['pwm_lb'];
+        this._pwm_rf = inputs['pwm_rf'];
+        this._pwm_rb = inputs['pwm_rb'];
     },
     exports: {
-        forward: function(callback) {
-            this._pwm.setDuty(this.speed);
-            this._gpio_out1.write(Level.high, callback);
-            this._gpio_out2.write(Level.low, callback);
-            this._gpio_out3.write(Level.high, callback);
-            this._gpio_out4.write(Level.low, callback);
-            // console.log(this._gpio_out1.read(callback));
-            // console.log(this._gpio_out1.getEdge(function(res) {
-            //     console.log(res)
-            // }));
+        forward: function () {
+            this._gpio_lf1.write(Level.high);
+            this._gpio_lf2.write(Level.low);
+            this._gpio_lb1.write(Level.high);
+            this._gpio_lb2.write(Level.low);
+            this._gpio_rf1.write(Level.high);
+            this._gpio_rf2.write(Level.low);
+            this._gpio_rb1.write(Level.high);
+            this._gpio_rb2.write(Level.low);
         },
-        acc: function(){
-            this.speed + 0.2 < 1 ? this.speed += 0.2 : this.speed = 1;
-            this._pwm.setDuty(this.speed); 
+        setSpeed: function (v) {
+            this.current_speed = v > 1 ? 1 : v;
+            this._pwm_lf.setDuty(this.current_speed);
+            this._pwm_lb.setDuty(this.current_speed);
+            this._pwm_rf.setDuty(this.current_speed);
+            this._pwm_rb.setDuty(this.current_speed);
         },
-        slow: function(){
-            this.speed - 0.2 > 0 ? this.speed -= 0.2 : this.speed = 0;
-            this._pwm.setDuty(this.speed);
+        left: function (range) {
+            if (range >= 0 && range <= 1) {
+                this._pwm_lf.setDuty(this.current_speed * range);
+                this._pwm_lb.setDuty(this.current_speed * range);
+            }
         },
-        backward: function(callback) {
-            this._pwm.setDuty(1);
-            // this._gpio_out1.write(Level.low, callback);
-            this._gpio_out2.write(Level.high, callback);
+        right: function (range) {
+            if (range >= 0 && range <= 1) {
+                this._pwm_rf.setDuty(this.current_speed * range);
+                this._pwm_rb.setDuty(this.current_speed * range);
+            }
+        },
+        backward: function () {
+            this._gpio_lf1.write(Level.low);
+            this._gpio_lf2.write(Level.high);
+            this._gpio_lb1.write(Level.low);
+            this._gpio_lb2.write(Level.high);
+            this._gpio_rf1.write(Level.low);
+            this._gpio_rf2.write(Level.high);
+            this._gpio_rb1.write(Level.low);
+            this._gpio_rb2.write(Level.high);
         }
     }
 });

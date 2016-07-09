@@ -1,39 +1,85 @@
 {
     "models": [],
     "inputs": {
-        "gpio-out1": {
+    "gpio_lf1": {
             "type": "gpio",
             "args": {
                 "direction": "out",
                 "level": "low"
             }
         },
-        "gpio-out2": {
+        "gpio_lf2": {
             "type": "gpio",
             "args": {
                 "direction": "out",
                 "level": "low"
             }
         },
-        "gpio-out3": {
+        "gpio_rf1": {
             "type": "gpio",
             "args": {
                 "direction": "out",
                 "level": "low"
             }
         },
-        "gpio-out4": {
+        "gpio_rf2": {
             "type": "gpio",
             "args": {
                 "direction": "out",
                 "level": "low"
             }
         },
-        "pwm": {
+        "gpio_lb1": {
+            "type": "gpio",
+            "args": {
+                "direction": "out",
+                "level": "low"
+            }
+        },
+        "gpio_lb2": {
+            "type": "gpio",
+            "args": {
+                "direction": "out",
+                "level": "low"
+            }
+        },
+        "gpio_rb1": {
+            "type": "gpio",
+            "args": {
+                "direction": "out",
+                "level": "low"
+            }
+        },
+        "gpio_rb2": {
+            "type": "gpio",
+            "args": {
+                "direction": "out",
+                "level": "low"
+            }
+        },
+        "pwm_lf": {
             "type": "pwm",
             "args": {
                 "frequency": 200
             }
-        }
+        },
+        "pwm_lb": {
+            "type": "pwm",
+            "args": {
+                "frequency": 200
+            }
+        },
+        "pwm_rf": {
+            "type": "pwm",
+            "args": {
+                "frequency": 200
+            }
+        },
+        "pwm_rb": {
+            "type": "pwm",
+            "args": {
+                "frequency": 200
+            }
+        },
     }
 }
