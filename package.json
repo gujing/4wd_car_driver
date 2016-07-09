@@ -1,0 +1,7 @@
+{
+    "name": "car_driver",
+    "version": "0.1.0",
+    "description": "4WD car driver",
+    "author": "gin",
+    "main": "src/index.js"
+}
